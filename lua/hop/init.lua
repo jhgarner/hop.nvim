@@ -188,12 +188,9 @@ function M.quit(buf_handle)
 end
 
 function M.hint_words(opts)
-  hint_with(hint.by_word_start, get_command_opts(opts))
+  hint_with(hint.by_word_start(opts.same_line), get_command_opts(opts))
 end
 
-function M.hint_words(opts)
-  hint_with(hint.by_word_start, get_command_opts(opts))
-end
 
 function M.hint_patterns(opts)
   opts = get_command_opts(opts)
@@ -207,22 +204,66 @@ function M.hint_patterns(opts)
     return
   end
 
-  hint_with(hint.by_searching(pat), opts)
+  hint_with(hint.by_searching(pat, false, false), opts)
 end
 
 function M.hint_char1(opts)
   local c = vim.fn.nr2char(vim.fn.getchar())
-  hint_with(hint.by_searching(c, true), get_command_opts(opts))
+  hint_with(hint.by_searching(c, true, false), get_command_opts(opts))
 end
 
 function M.hint_char2(opts)
   local a = vim.fn.nr2char(vim.fn.getchar())
   local b = vim.fn.nr2char(vim.fn.getchar())
-  hint_with(hint.by_searching(a .. b, true), get_command_opts(opts))
+  hint_with(hint.by_searching(a .. b, true, false), get_command_opts(opts))
 end
 
 function M.hint_lines(opts)
   hint_with(hint.by_line_start, get_command_opts(opts))
+end
+
+function M.hint_j(opts)
+  hint_with(hint.by_j, get_command_opts(opts))
+end
+
+function M.hint_k(opts)
+  hint_with(hint.by_k, get_command_opts(opts))
+end
+
+function M.hint_w(opts)
+  hint_with(hint.by_w(opts.same_line), get_command_opts(opts))
+end
+
+function M.hint_b(opts)
+  hint_with(hint.by_b(opts.same_line), get_command_opts(opts))
+end
+
+function M.hint_e(opts)
+  hint_with(hint.by_e(opts.same_line), get_command_opts(opts))
+end
+
+function M.hint_ge(opts)
+  hint_with(hint.by_ge(opts.same_line), get_command_opts(opts))
+end
+
+function M.hint_f(opts)
+  local a = vim.fn.nr2char(vim.fn.getchar())
+  hint_with(hint.by_find(a, false), get_command_opts(opts))
+end
+
+function M.hint_F(opts)
+  local a = vim.fn.nr2char(vim.fn.getchar())
+  hint_with(hint.by_find_back(a, false), get_command_opts(opts))
+end
+
+function M.hint_t(opts)
+  local a = vim.fn.nr2char(vim.fn.getchar())
+  hint_with(hint.by_find(a, true), get_command_opts(opts))
+end
+
+function M.hint_T(opts)
+  local a = vim.fn.nr2char(vim.fn.getchar())
+  hint_with(hint.by_find_back(a, true), get_command_opts(opts))
 end
 
 -- Insert the highlights and register the autocommand.
